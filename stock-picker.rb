@@ -8,20 +8,30 @@ first we check the THE FIRST LOWEST number and then we substract it from the fol
 $stored = []
 days = [17,3,6,9,15,8,6,1,10]
 
+def get_indexes(stored_hash) 
+    stored_hash.map {|hash| hash.values}.reduce {|prev,curr| curr.last < prev.last ? prev : curr}.first(2)
+end
+
 def stock_picker(stonks)
+
     stonks.reduce do |prev,curr|
+
         if prev < curr
-            p "#{stonks.index(curr)} curr"
-            p "#{stonks.index(prev)} prev"
-            best = curr - prev
-            $stored << [stonks.index(prev), stonks.index(curr), best] 
-            # first element of this array is lowest value index
-            # second element is biggest value index and the last is substracted value associated to these indexes
-            p best
+
+            difference = curr - prev
+            $stored << {
+                low_index: stonks.index(prev),
+                big_index: stonks.index(curr),
+                difference: difference
+            }
             curr = prev
+
         end
         curr
+
     end
+    get_indexes($stored)
+    
 end
-stock_picker(days)
-p $stored
+
+p stock_picker(days)
